@@ -14,8 +14,13 @@ class Instalador
 {
     public static function crearBase(): void
     {
-        $nombre = preg_replace('/[^a-zA-Z0-9_]/', '', Env::get('DB_NAME', 'cartilla'));
-        Database::servidor()->exec("CREATE DATABASE IF NOT EXISTS `$nombre` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+        try {
+            $nombre = preg_replace('/[^a-zA-Z0-9_]/', '', Env::get('DB_NAME', 'cartilla'));
+            Database::servidor()->exec("CREATE DATABASE IF NOT EXISTS `$nombre` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+        } catch (\Throwable $e) {
+            // En hosting compartido (Hostinger/cPanel), la base de datos se crea desde el panel
+            // de control y el usuario MySQL no tiene privilegios de 'CREATE DATABASE'.
+        }
     }
 
     public static function esquema(): void
