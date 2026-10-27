@@ -17,6 +17,11 @@ Cartilla une lo mejor de dos plataformas que exploramos para la hackatón:
 
 ---
 
+> 🚀 **¿Vas a subir este proyecto a Hostinger o un hosting compartido?**  
+> Consulta la [**Guía de Instalación en Hostinger (100% Sin SSH)**](HOSTINGER.md) para configurarlo en 4 pasos desde el panel web sin usar la terminal.
+
+---
+
 ## Instalación (XAMPP en macOS, Windows o Linux)
 
 Requisitos: PHP 8.0 o superior con PDO MySQL, MySQL/MariaDB y Apache con `mod_rewrite` (vienen con XAMPP). No hay dependencias de Composer ni de npm.
