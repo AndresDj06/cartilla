@@ -1,0 +1,11 @@
+# Entorno y secretos
+.env
+.env.backup
+*.log
+
+# Editores y SO
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini

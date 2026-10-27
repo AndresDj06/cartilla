@@ -1,0 +1,135 @@
+/* Cartilla · base compartida: tokens, reset, tipografía, controles y foco. */
+:root {
+  /* Afiche: colores planos enteros, como la portada. */
+  --amarillo: #ffd249;
+  --amarillo-2: #f5c63c;
+  --rosa: #ffc4ef;
+  --cian: #a4f6f8;
+  --naranja: #f9a21f;
+  --magenta: #f53fd6;
+
+  --bg: #ffffff;
+  --surface: #f1f1f1;
+  --surface-2: #e4e4e4;
+  --ink: #0a0a0a;
+  --muted: #4d4d4d;
+  /* Azul hondo del agua: marcas pequeñas, barras y enlaces. */
+  --accent: #0b4f55;
+  --accent-dark: #083a3f;
+  --accent-ink: #ffffff;
+  --tint-50: #e6fbfc;
+  --tint-100: #a4f6f8;
+  --tint-200: #6fdde2;
+  --rojo: #a3123a;
+  --rojo-tint: #ffc4ef;
+  --tablero: #ffd249;
+  --tablero-ink: #0a0a0a;
+  --rule: #dcdcdc;
+  --raya: #d8d8d8;
+
+  --display: "Anton", "Arial Narrow", Impact, sans-serif;
+  --text: "Work Sans", system-ui, sans-serif;
+
+  --step-small: clamp(0.875rem, 0.85rem + 0.1vw, 0.9375rem);
+  --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --step-lead: clamp(1.25rem, 1.1rem + 0.6vw, 1.6rem);
+  --step-head: clamp(2.6rem, 1.4rem + 5vw, 5.75rem);
+
+  --margen: clamp(16px, 2.2vw, 32px);
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: var(--text);
+  font-size: var(--step-body);
+  line-height: 1.55;
+  color: var(--ink);
+  background: var(--bg);
+  font-variant-numeric: lining-nums;
+  text-rendering: optimizeLegibility;
+}
+img, svg, video { display: block; max-width: 100%; }
+img { height: auto; }
+h1, h2, h3, h4 { margin: 0; font-weight: 500; line-height: 1.05; text-wrap: balance; }
+p { margin: 0; }
+a { color: var(--accent); text-underline-offset: 0.18em; text-decoration-thickness: 1px; font-weight: 600; }
+a:hover { text-decoration-thickness: 2px; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+.num { font-variant-numeric: tabular-nums lining-nums; }
+
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+::selection { background: var(--tint-200); color: var(--ink); }
+
+.saltar {
+  position: absolute; left: 12px; top: -60px; z-index: 100;
+  background: var(--ink); color: #fff; padding: 10px 16px; text-decoration: none;
+}
+.saltar:focus { top: 12px; }
+.sr { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Botones: un solo estilo, esquinas rectas como papel recortado. */
+.boton {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 52px; padding: 0 26px;
+  font-family: var(--text); font-size: 1.0625rem; font-weight: 600; line-height: 1.1;
+  background: var(--magenta); color: var(--ink);
+  border: 0; border-radius: 0; text-decoration: none;
+  transition: transform .14s var(--ease-out), background-color .2s;
+  touch-action: manipulation;
+}
+.boton:hover { background: #ff5fe2; }
+.boton:active { transform: translateY(1px) scale(.985); }
+.boton[disabled], .boton[aria-disabled="true"] { opacity: .45; cursor: not-allowed; transform: none; }
+.boton--tinta { background: var(--ink); color: #fff; }
+.boton .girando { border-color: currentColor; border-right-color: transparent; }
+.boton--tinta:hover { background: #333; }
+.boton--suave { background: var(--surface); color: var(--ink); }
+.boton--suave:hover { background: var(--surface-2); }
+.boton--peligro { background: var(--rojo); color: #fff; }
+.boton--peligro:hover { background: #8e0d18; }
+.boton--ancho { width: 100%; }
+.boton .girando { width: 18px; height: 18px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: girar .7s linear infinite; }
+@keyframes girar { to { transform: rotate(360deg); } }
+
+.enlace-boton { background: none; border: 0; padding: 0; color: var(--accent); text-decoration: underline; text-underline-offset: .18em; }
+
+/* Formularios */
+.campo { display: grid; gap: 6px; margin-bottom: 22px; }
+.campo label, .campo .etiqueta { font-weight: 500; }
+.campo .ayuda { font-size: var(--step-small); color: var(--muted); }
+.campo input, .campo select, .campo textarea {
+  width: 100%; min-height: 50px; padding: 12px 14px;
+  background: var(--surface); border: 2px solid transparent; border-radius: 0;
+  font-size: 1.125rem;
+}
+.campo textarea { min-height: 220px; line-height: 1.5; resize: vertical; }
+.campo input:focus, .campo select:focus, .campo textarea:focus { outline: none; border-color: var(--ink); background: #fff; }
+.campo--error input, .campo--error textarea, .campo--error select { border-color: var(--rojo); background: #fff; }
+.campo .error { color: var(--rojo); font-size: 1rem; font-weight: 500; }
+.clave-envoltura { position: relative; }
+.clave-envoltura input { padding-right: 96px; }
+.clave-envoltura button { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); min-height: 40px; padding: 0 12px; background: none; border: 0; color: var(--accent); font-weight: 600; }
+
+.resumen-errores { background: var(--rojo-tint); color: var(--ink); padding: 16px 20px; margin-bottom: 24px; border-left: 4px solid var(--rojo); }
+.resumen-errores h2 { font-family: var(--text); font-size: 1.15rem; font-weight: 600; margin-bottom: 6px; }
+.resumen-errores ul { margin: 0; padding-left: 20px; }
+
+.aviso { padding: 14px 18px; margin-bottom: 20px; background: var(--tint-50); border-left: 4px solid var(--accent); }
+.aviso--error { background: var(--rojo-tint); border-left-color: var(--rojo); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+}
+
+/* =================== Capa suave: radios grandes y transiciones con resorte =================== */
+:root { --r: clamp(22px, 2.4vw, 34px); --r-s: 16px; --resorte: cubic-bezier(.34, 1.4, .64, 1); }
+.boton { border-radius: 999px; padding: 0 28px; transition: transform .45s var(--resorte), background-color .3s ease, color .3s ease; }
+.boton:hover { transform: translateY(-2px); }
+.boton:active { transform: scale(.97); transition-duration: .12s; }
+.campo input, .campo select, .campo textarea { border-radius: 14px; transition: border-color .25s ease, background-color .25s ease; }
+.resumen-errores, .aviso { border-radius: var(--r-s); border-left: 0; }
+.clave-envoltura button { border-radius: 999px; }

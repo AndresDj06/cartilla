@@ -1,0 +1,6 @@
+# Todo pasa por public/. Bloquea el acceso directo al código, .env y la base.
+Options -Indexes
+RewriteEngine On
+RewriteRule ^(\.env|\.git|app|config|database|bin|\.taste-skill)(/|$) - [F,L]
+RewriteRule ^$ public/ [L]
+RewriteRule ^((?!public/).*)$ public/$1 [L]

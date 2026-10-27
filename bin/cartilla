@@ -1,0 +1,48 @@
+#!/usr/bin/env php
+<?php
+// Consola de Cartilla: instalar, demo, superadmin.
+require dirname(__DIR__) . '/app/bootstrap.php';
+
+use App\Core\Database;
+use App\Services\Instalador;
+use App\Services\SuperAdministradorService;
+
+$comando = $argv[1] ?? 'ayuda';
+$opciones = array_slice($argv, 2);
+
+try {
+    switch ($comando) {
+        case 'instalar':
+            echo "Creando base de datos…\n";
+            Instalador::crearBase();
+            Instalador::esquema();
+            echo 'Catálogo: ' . Instalador::catalogo() . " ejercicios cargados.\n";
+            if (!in_array('--sin-demo', $opciones, true)) {
+                echo Instalador::demo() . "\n";
+            }
+            try {
+                echo SuperAdministradorService::asegurar() . "\n";
+            } catch (RuntimeException $e) {
+                echo 'Aviso: ' . $e->getMessage() . "\n";
+            }
+            echo "Listo.\n";
+            break;
+        case 'superadmin':
+            echo SuperAdministradorService::asegurar(in_array('--restablecer', $opciones, true)) . "\n";
+            break;
+        case 'estado':
+            $pdo = Database::pdo();
+            foreach (['usuarios', 'cursos', 'lecciones', 'ejercicios', 'intentos', 'respuestas'] as $t) {
+                echo str_pad($t, 12) . $pdo->query("SELECT COUNT(*) FROM $t")->fetchColumn() . "\n";
+            }
+            break;
+        default:
+            echo "Uso:\n";
+            echo "  php bin/cartilla instalar [--sin-demo]   Crea la base, el esquema, el catálogo y los datos demo (borra lo anterior).\n";
+            echo "  php bin/cartilla superadmin [--restablecer]   Crea o verifica el super administrador (contraseña desde .env).\n";
+            echo "  php bin/cartilla estado   Cuenta registros por tabla.\n";
+    }
+} catch (Throwable $e) {
+    fwrite(STDERR, 'Error: ' . $e->getMessage() . "\n");
+    exit(1);
+}

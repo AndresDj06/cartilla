@@ -1,0 +1,130 @@
+/* Cartilla · páginas de flujo (onboarding, registro, ingreso, páginas simples) en clave afiche:
+   cada paso es un campo de color plano y la pregunta va en un panel blanco. */
+body.sitio { background: var(--amarillo); color: var(--ink); }
+.sitio h1, .sitio h2 { font-family: var(--display); font-weight: 400; text-transform: uppercase; letter-spacing: -0.005em; line-height: 1; }
+
+/* Un color por paso, como los capítulos de la portada. */
+body.paso-rol, body.paso-tiempo, body.paso-registro { background: var(--amarillo); }
+body.paso-objetivo, body.paso-juegos { background: var(--rosa); }
+body.paso-tema, body.paso-resumen, body.paso-ingreso { background: var(--cian); }
+body.paso-nivel, body.paso-grado { background: var(--naranja); }
+
+.banda-aviso { background: var(--ink); color: #fff; padding: 14px var(--margen); font-size: 1.0625rem; }
+.banda-aviso--exito { background: var(--ink); }
+.sitio .resumen-errores h2 { font-family: var(--text); font-size: 1.125rem; font-weight: 600; text-transform: none; line-height: 1.3; letter-spacing: 0; }
+
+/* ---------- Rejilla del flujo: etiqueta, pregunta y fotografía ---------- */
+.flujo-grid { display: grid; grid-template-columns: minmax(250px, 300px) minmax(0, 1fr); gap: 12px; padding: 12px; min-height: 100svh; align-items: start; }
+.etiqueta { position: sticky; top: 12px; display: grid; gap: 24px; padding: 16px 12px 16px 0; }
+.etiqueta__papel { background: var(--ink); color: #fff; padding: 22px 20px 16px; }
+.etiqueta__marca { font-family: var(--display); font-size: 2.6rem; line-height: .9; text-transform: uppercase; margin-bottom: 14px; }
+.etiqueta dl { margin: 0; display: grid; gap: 4px; }
+.etiqueta dl div { display: grid; grid-template-columns: 64px 1fr; gap: 10px; padding: 8px 10px; background: #1f1f1f; font-size: .9375rem; }
+.etiqueta dt { color: #bdbdbd; }
+.etiqueta dd { margin: 0; font-weight: 600; }
+.pasos ol { list-style: none; margin: 0; padding: 0 0 0 4px; display: grid; gap: 2px; }
+.pasos li { font-size: 1.0625rem; color: rgba(10, 10, 10, .62); padding-left: 26px; position: relative; min-height: 34px; display: flex; align-items: center; font-weight: 500; }
+.pasos li::before { content: ""; position: absolute; left: 0; width: 12px; height: 12px; background: rgba(10, 10, 10, .22); }
+.pasos li.es-hecho { color: var(--ink); }
+.pasos li.es-hecho::before { background: var(--ink); }
+.pasos li.es-actual { color: var(--ink); font-weight: 600; }
+.pasos li.es-actual::before { background: var(--magenta); width: 14px; height: 14px; outline: 3px solid var(--ink); }
+.pasos a { color: inherit; font-weight: inherit; }
+
+.pregunta-papel { background: #fff; color: var(--ink); min-height: calc(100svh - 24px); display: flex; flex-direction: column; min-width: 0; }
+.pregunta-papel__cuerpo { width: 100%; max-width: 780px; margin: 0 auto; padding: clamp(24px, 4vw, 56px) clamp(20px, 4vw, 48px) 64px; }
+.avance { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 12px 20px; margin-bottom: clamp(28px, 5vh, 56px); }
+.avance__atras { color: var(--ink); min-height: 44px; display: inline-flex; align-items: center; font-weight: 600; }
+.avance__texto { justify-self: end; font-weight: 600; font-size: 1rem; }
+.avance__barra { grid-column: 1 / -1; height: 12px; background: var(--surface); }
+.avance__barra span { display: block; height: 100%; background: var(--ink); transition: width .6s var(--ease-out); }
+.pregunta h1, .resumen h1 { font-size: clamp(2.75rem, 1.4rem + 4vw, 5rem); max-width: 16ch; }
+.por-que { margin: 20px 0 32px; font-size: 1.125rem; max-width: 52ch; }
+.elecciones { border: 0; padding: 0; margin: 0 0 12px; display: grid; gap: 8px; }
+.elecciones--tres { grid-template-columns: repeat(3, 1fr); }
+.elecciones--juegos { grid-template-columns: 1fr 1fr; }
+.eleccion { position: relative; display: grid; grid-template-columns: 24px 1fr; column-gap: 14px; row-gap: 2px; align-items: start; padding: 18px 20px; background: var(--surface); cursor: pointer; transition: background-color .15s, transform .14s var(--ease-out); }
+.eleccion:hover { background: var(--surface-2); }
+.eleccion:active { transform: scale(.99); }
+.eleccion input { grid-row: 1 / span 3; width: 20px; height: 20px; margin: 3px 0 0; accent-color: var(--ink); }
+.eleccion__titulo { font-size: 1.1875rem; font-weight: 600; }
+.eleccion__desc { color: var(--muted); font-size: 1rem; }
+.eleccion:has(input:checked) { background: var(--cian); }
+.eleccion:has(input:checked) .eleccion__desc { color: var(--ink); }
+.eleccion:has(input:focus-visible) { outline: 3px solid var(--ink); outline-offset: 2px; }
+.eleccion__cifra { font-family: var(--display); font-size: 3rem; line-height: .95; }
+.sugerido { grid-column: 2; justify-self: start; margin-top: 8px; background: var(--ink); color: #fff; font-size: .875rem; font-weight: 600; padding: 3px 10px; }
+.error-campo { color: var(--rojo); font-weight: 600; margin: 4px 0 12px; }
+.nota-paso { margin-top: 20px; color: var(--muted); font-size: 1rem; }
+.opcional { color: var(--muted); font-weight: 400; }
+.pregunta__acciones { margin-top: 32px; display: flex; gap: 16px; }
+.pregunta__acciones .boton { min-width: 220px; min-height: 58px; font-size: 1.125rem; }
+.resumen-errores a { color: var(--rojo); }
+
+.decisiones { list-style: none; margin: 0 0 28px; padding: 0; display: grid; gap: 6px; }
+.decisiones li { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; background: var(--surface); padding: 16px 20px; }
+.decisiones__elegiste { font-weight: 600; font-size: 1.125rem; }
+.decisiones__efecto { font-size: 1rem; }
+.decisiones a { white-space: nowrap; min-height: 32px; display: inline-flex; align-items: center; color: var(--ink); }
+.vista-ruta { background: var(--ink); color: #fff; padding: 22px 24px; margin-bottom: 28px; }
+.vista-ruta__unidad { font-family: var(--display); text-transform: uppercase; font-size: 1.5rem; line-height: 1; margin: 18px 0 8px; }
+.vista-ruta__unidad:first-child { margin-top: 0; }
+.vista-ruta ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.vista-ruta li { display: flex; justify-content: space-between; gap: 16px; padding: 8px 12px; background: #1f1f1f; }
+.vista-ruta li span:last-child { color: #bdbdbd; }
+.etiqueta-suave { font-family: var(--text); text-transform: none; font-weight: 600; font-size: .875rem; background: var(--magenta); color: var(--ink); padding: 2px 8px; margin-left: 8px; vertical-align: middle; }
+.resumen__acciones { display: flex; flex-wrap: wrap; gap: 12px; }
+.resumen__acciones .boton { min-height: 58px; font-size: 1.125rem; }
+.reiniciar { margin-top: 28px; }
+
+/* Fotografía real a la derecha en pantallas anchas, cortada en seco. */
+.lamina { display: none; margin: 0; }
+@media (min-width: 1200px) {
+  .flujo-grid { grid-template-columns: minmax(250px, 290px) minmax(0, 1fr) minmax(280px, 26vw); }
+  .lamina { display: block; position: sticky; top: 12px; height: calc(100svh - 24px); overflow: hidden; }
+  .lamina img { width: 100%; height: 100%; object-fit: cover; animation: deriva 24s ease-in-out infinite alternate; }
+}
+@keyframes deriva { from { transform: scale(1.04) translateX(0); } to { transform: scale(1.1) translateX(-2%); } }
+
+/* ---------- Páginas sencillas (error, privacidad) ---------- */
+.hoja-simple { min-height: 100svh; display: grid; place-items: center; padding: 40px var(--margen); }
+.hoja-simple__papel { background: #fff; color: var(--ink); max-width: 680px; width: 100%; padding: clamp(28px, 5vw, 56px); display: grid; gap: 20px; }
+.hoja-simple__papel--ancha { max-width: 860px; }
+.hoja-simple h1 { font-size: clamp(2.6rem, 1.6rem + 3.4vw, 4.5rem); }
+.hoja-simple__acciones { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px; }
+.hoja-simple__detalle { font-size: 1rem; color: var(--muted); background: var(--surface); padding: 12px; overflow-wrap: anywhere; }
+.datos { margin: 0; display: grid; gap: 6px; }
+.datos div { display: grid; grid-template-columns: 220px 1fr; gap: 16px; padding: 14px 16px; background: var(--surface); }
+.datos dt { font-weight: 600; }
+.datos dd { margin: 0; }
+
+/* ---------- Entradas (solo con JS; sin JS todo se ve) ---------- */
+.js .entra { opacity: 0; transform: translateY(20px); transition: opacity .6s var(--ease-out), transform .6s var(--ease-out); transition-delay: var(--d, 0ms); }
+.js .entra.visto { opacity: 1; transform: none; }
+
+@media (max-width: 900px) {
+  .flujo-grid { grid-template-columns: 1fr; padding: 0; gap: 0; }
+  .etiqueta { position: static; order: 2; padding: 28px 16px 40px; }
+  .pregunta-papel { min-height: 0; }
+  .elecciones--tres, .elecciones--juegos { grid-template-columns: 1fr; }
+  .pregunta__acciones .boton, .resumen__acciones .boton { width: 100%; }
+}
+@media (max-width: 640px) { .datos div { grid-template-columns: 1fr; gap: 4px; } }
+@media (prefers-reduced-motion: reduce) {
+  .js .entra { opacity: 1; transform: none; }
+  .lamina img { animation: none; }
+}
+
+/* =================== Capa suave =================== */
+.etiqueta__papel, .pregunta-papel, .lamina, .hoja-simple__papel, .vista-ruta { border-radius: var(--r); }
+.etiqueta dl div, .vista-ruta li { border-radius: 10px; }
+.pasos li::before { border-radius: 50%; }
+.pasos li.es-actual::before { outline-offset: 0; }
+.avance__barra, .avance__barra span { border-radius: 999px; }
+.eleccion, .decisiones li, .datos div { border-radius: var(--r-s); }
+.eleccion { transition: background-color .3s ease, transform .45s var(--resorte); }
+.eleccion:hover { transform: translateY(-2px); }
+.sugerido, .etiqueta-suave { border-radius: 999px; }
+.lamina { overflow: hidden; }
+.lamina img { animation-duration: 40s; }
+@media (max-width: 900px) { .pregunta-papel { border-radius: 0 0 var(--r) var(--r); } }
