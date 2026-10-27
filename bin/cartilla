@@ -4,6 +4,7 @@
 require dirname(__DIR__) . '/app/bootstrap.php';
 
 use App\Core\Database;
+use App\Core\Env;
 use App\Services\Instalador;
 use App\Services\SuperAdministradorService;
 
@@ -42,6 +43,22 @@ try {
             echo "  php bin/cartilla superadmin [--restablecer]   Crea o verifica el super administrador (contraseña desde .env).\n";
             echo "  php bin/cartilla estado   Cuenta registros por tabla.\n";
     }
+} catch (PDOException $e) {
+    [$host, $puerto] = Database::resolverHostYPuerto();
+    $db = Env::get('DB_NAME', 'cartilla');
+    $user = Env::get('DB_USER', 'root');
+    fwrite(STDERR, "Error de conexión a la base de datos MySQL:\n");
+    fwrite(STDERR, "  " . $e->getMessage() . "\n\n");
+    fwrite(STDERR, "Valores leídos desde el .env:\n");
+    fwrite(STDERR, "  DB_HOST = " . var_export($host, true) . "\n");
+    fwrite(STDERR, "  DB_PORT = " . var_export($puerto, true) . "\n");
+    fwrite(STDERR, "  DB_NAME = " . var_export($db, true) . "\n");
+    fwrite(STDERR, "  DB_USER = " . var_export($user, true) . "\n\n");
+    fwrite(STDERR, "Ayuda para Hostinger:\n");
+    fwrite(STDERR, "  1. En Hostinger el DB_HOST debe ser 'localhost' o '127.0.0.1' (NUNCA pongas una URL con https://).\n");
+    fwrite(STDERR, "  2. Verifica en tu hPanel que DB_NAME y DB_USER tengan el prefijo completo (ej: u123456789_nombre).\n");
+    fwrite(STDERR, "  3. Revisa que la contraseña en DB_PASS sea exactamente la que creaste en Bases de datos MySQL.\n");
+    exit(1);
 } catch (Throwable $e) {
     fwrite(STDERR, 'Error: ' . $e->getMessage() . "\n");
     exit(1);

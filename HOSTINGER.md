@@ -58,14 +58,28 @@ Esta guía está diseñada para instalar **Cartilla** en **Hostinger** (o cualqu
 ```ini
 DB_HOST=localhost
 DB_PORT=3306
-DB_NAME=u123456789_cartilla
-DB_USER=u123456789_admin
+DB_NAME=u336988965_cartilla
+DB_USER=u336988965_usuario
 DB_PASS=tu_clave_creada_en_el_paso_3
 
 APP_TZ=America/Bogota
 APP_DEBUG=0
 ```
+> ⚠️ **Atención:** En `DB_HOST` pon únicamente `localhost` o `127.0.0.1`. **Nunca escribas `https://` ni la URL de tu página web**, de lo contrario MySQL intentará conectarse a internet en lugar de al servidor local de bases de datos.
+
 5. Guarda los cambios.
+
+---
+
+## Solución a errores comunes en terminal (SSH)
+
+### Error: `getaddrinfo for https failed: Name or service not known`
+- **Causa:** En el archivo `.env` se colocó `https://...` en el campo `DB_HOST`.
+- **Solución:** Abre el archivo `.env` y cámbialo a:
+  ```ini
+  DB_HOST=localhost
+  ```
+  *(El sistema ahora también limpia automáticamente prefijos http/https por si acaso, pero el valor correcto es `localhost`).*
 
 ---
 
