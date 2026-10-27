@@ -1,6 +1,27 @@
-# Todo pasa por public/. Bloquea el acceso directo al código, .env y la base.
+# Desactivar listado de directorios
 Options -Indexes
-RewriteEngine On
-RewriteRule ^(\.env|\.git|app|config|database|bin|\.taste-skill)(/|$) - [F,L]
-RewriteRule ^$ public/ [L]
-RewriteRule ^((?!public/).*)$ public/$1 [L]
+
+# Proteger archivos sensibles (.env, .git, etc.)
+<FilesMatch "^\.(env|git)">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order deny,allow
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# Enrutamiento compatible con Apache y LiteSpeed (Hostinger)
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Bloquear acceso directo a código interno, base de datos y comandos
+    RewriteRule ^(\.env|\.git|app|config|database|bin)(/|$) - [F,L]
+
+    # Redirigir la raíz a public/
+    RewriteRule ^$ public/ [L]
+
+    # Redirigir el resto de recursos a public/
+    RewriteRule ^((?!public/).*)$ public/$1 [L]
+</IfModule>
